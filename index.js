@@ -28,9 +28,15 @@ cells.forEach((cell, index) => {
         resetGame();
         } else {
         currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
-        if (currentPlayer === 'O') {
-            setTimeout(() => {
-            makeAIMoveMinimax();
+            if (currentPlayer === 'O') {
+                setTimeout(() => {
+                    makeAIMoveMinimax();
+                    const winner = checkWinner(spaces);
+                    if (winner === 'O') {
+                        computerScore.textContent = parseInt(computerScore.textContent) + 1;
+                        alert('Player 2 (O) wins!');
+                        resetGame();
+                        }
                     }, 1000);
                 }
             }
