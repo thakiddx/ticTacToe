@@ -194,4 +194,3 @@ function checkWin() {
     document.querySelector('.newGame').addEventListener('click', newGame);
   });
   
-  
