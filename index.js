@@ -15,13 +15,15 @@ cells.forEach((cell, index) => {
         cell.textContent = currentPlayer;
         spaces[index] = currentPlayer;
         if (checkWin()) {
-        if (currentPlayer === 'X') {
-            playerOneScore.textContent = parseInt(playerOneScore.textContent) + 1;
-            alert('player1(X) wins!');
+            if (currentPlayer === 'X') {
+                const playerOneWins = +playerOneScore.textContent.split(' ')[0] + 1;
+                playerOneScore.textContent = `${playerOneWins} Wins`;
+                alert('Player 1 (X) wins!');
             } else {
-            computerScore.textContent = parseInt(computerScore.textContent) + 1;
-            alert('player2(O) wins!');
-        }
+                const computerWins = +computerScore.textContent.split(' ')[0] + 1;
+                computerScore.textContent = `${computerWins} Wins`;
+                alert('Player 2 (O) wins!');
+            }
         resetGame();
         } else if (checkDraw()) {
         alert('It\'s a draw!');
