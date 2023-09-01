@@ -7,6 +7,10 @@ body {
     justify-content: center;
     height: 100vh;
     background-color: #e6e5e5;
+    background-image: url('volcanoPic.jpeg'); 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
   }
   
 h1 {
