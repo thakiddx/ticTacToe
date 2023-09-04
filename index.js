@@ -1,3 +1,4 @@
+//Wait for the DOM to be fully loaded before executing the code
 document.addEventListener("DOMContentLoaded", () => {
   const cells = document.querySelectorAll(".cell");
   const playerOneScore = document.querySelector(".playerScore");
@@ -6,18 +7,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const overlay = document.getElementById("overlay");
   const closeModalBtn = document.getElementById("close-modal");
 
-  let currentPlayer = "X"; // playerOne Symbol
+  let currentPlayer = "X"; // Initialize the current player as 'X'
 
-  //gameState
+  //define gameState
   const spaces = ["", "", "", "", "", "", "", "", ""];
 
-  //eventListeners for Board
+  //add eventListeners for Board Cells
   cells.forEach((cell, index) => {
     cell.addEventListener("click", () => {
       if (!cell.textContent && !checkWin() && !checkDraw()) {
+    //If the cell is empty and the game is not won or drawn, proceed
         cell.textContent = currentPlayer;
         spaces[index] = currentPlayer;
         if (checkWin()) {
+        //Check if a player has won
           if (currentPlayer === "X") {
             const playerOneWins = +playerOneScore.textContent.split(" ")[0] + 1;
             playerOneScore.textContent = `${playerOneWins} Wins`;
@@ -29,12 +32,15 @@ document.addEventListener("DOMContentLoaded", () => {
           }
           resetGame();
         } else if (checkDraw()) {
+        //Check if the game is a draw
           showWinModal("It's a draw!");
           showDrawModal();
           resetGame();
         } else {
+        //Switch the current player
           currentPlayer = currentPlayer === "X" ? "O" : "X";
           if (currentPlayer === "O") {
+        //If it's the computer's turn (O) make a move after delay
             setTimeout(() => {
               makeAIMoveMinimax();
               const winner = checkWinner(spaces);
@@ -52,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+//Function to vcheck if a player has won
   function checkWin() {
     //check rows
     for (let i = 0; i < 3; i++) {
@@ -91,12 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return false; //no win condition
   }
 
-  //Check draw
+  //Function to Check draw
   function checkDraw() {
     return spaces.every((cell) => cell !== "");
   }
 
-  // reset board
+  //Function to reset board
   function resetGame() {
     cells.forEach((cell) => {
       cell.textContent = "";
@@ -104,13 +111,14 @@ document.addEventListener("DOMContentLoaded", () => {
     spaces.fill("");
   }
 
-  //start new game
+  //Function to start new game
   function newGame() {
     resetGame();
     playerOneScore.textContent = "0"; // Reset scores
     computerScore.textContent = "0";
   }
 
+//Function to make a move for the computer using the minimax algorithm
   function makeAIMoveMinimax() {
     const bestMove = findBestMove(spaces, currentPlayer);
     if (bestMove !== -1) {
@@ -136,6 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+//Function to find the best move for the computer using minimax
   function findBestMove(board, player) {
     let bestScore = -Infinity;
     let bestMove = -1;
@@ -162,6 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
     draw: 0,
   };
 
+//Function to implement the minimax algorithm
   function minimax(board, depth, isMaximizing) {
     const winner = checkWinner(board);
     if (winner !== null) {
@@ -193,6 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+//Function to check for a winner based on the current board state
   function checkWinner(board) {
     const winningCombos = [
       [0, 1, 2],
@@ -213,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (board.every((cell) => cell !== "")) {
-      return "draw";
+      return "draw"; //If all cells are filled, it's a draw
     }
 
     return null;
@@ -229,36 +240,41 @@ function hideModal() {
     overlay.style.display = "none";
 }
 
-
+//Event listener for the reset button to show the modal
 document.querySelector(".reset").addEventListener("click", () => {
     showModal();
 });
 
+//Event Listener to close the modal when the close button is clicked
 closeModalBtn.addEventListener("click", () => {
     hideModal();
 });
 
+//Function to show a win message
 function showWinMessage(player) {
     document.getElementById("modal-text").textContent = `Player ${player}`;
     showModal();
 }
 
+//Function to show a win modal with a message
 function showWinModal(player) {
     document.getElementById("modal-text").textContent = `${player}`;
     showModal();
   }
 
+//Function to show a draw modal
 function showDrawModal() {
     document.getElementById("modal-text").textContent = "It's a draw!";
     showModal();
 }
-  
+
+//Function to show a reset modal
 function showResetModal() {
     document.getElementById("modal-text").textContent = "The game has been reset!";
     showModal();
 }
 
-  // EventListeners for Buttons
+// EventListeners for Buttons
   document.querySelector(".reset").addEventListener("click", () => {
     showResetModal();
     resetGame();
