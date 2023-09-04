@@ -261,11 +261,12 @@ function showResetModal() {
   // EventListeners for Buttons
   document.querySelector(".reset").addEventListener("click", () => {
     showResetModal();
+    resetGame();
 });
 
 document.querySelector(".newGame").addEventListener("click", () => {
 document.getElementById("modal-text").textContent = "NEW GAME STARTED!";
-    showModal();
+showModal();
   });   
   document.querySelector(".newGame").addEventListener("click", newGame);
 });
