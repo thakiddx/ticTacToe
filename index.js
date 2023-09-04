@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const cells = document.querySelectorAll(".cell");
   const playerOneScore = document.querySelector(".playerScore");
   const computerScore = document.querySelector(".computerScore");
+  const modal = document.getElementById("custom-modal");
+  const overlay = document.getElementById("overlay");
+  const closeModalBtn = document.getElementById("close-modal");
 
   let currentPlayer = "X"; // playerOne Symbol
 
@@ -18,15 +21,16 @@ document.addEventListener("DOMContentLoaded", () => {
           if (currentPlayer === "X") {
             const playerOneWins = +playerOneScore.textContent.split(" ")[0] + 1;
             playerOneScore.textContent = `${playerOneWins} Wins`;
-            alert("Player 1 (X) wins!");
+            showWinModal("Player 1 (X) wins!");
           } else {
             const computerWins = +computerScore.textContent.split(" ")[0] + 1;
             computerScore.textContent = `${computerWins} Wins`;
-            alert("Player 2 (O) wins!");
+            showWinModal("Player 2 (O) wins!");
           }
           resetGame();
         } else if (checkDraw()) {
-          alert("It's a draw!");
+          showWinModal("It's a draw!");
+          showDrawModal();
           resetGame();
         } else {
           currentPlayer = currentPlayer === "X" ? "O" : "X";
@@ -38,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const computerWinsText = computerScore.textContent;
                 const computerWins = parseInt(computerWinsText.match(/\d+/)[0]);
                 computerScore.textContent = `${computerWins + 1} Wins`;
-                alert("Player 2 (O) wins!");
+                showWinModal("Player 2 (O) wins!");
                 resetGame();
               }
             }, 1000);
@@ -124,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const computerWinsText = computerScore.textContent;
             const computerWins = parseInt(computerWinsText.match(/\d+/)[0]);
             computerScore.textContent = `${computerWins + 1} Wins`;
-            alert("Player 2 (O) wins!");
+            showWinModal("Player 2 (O) wins!");
             resetGame();
           }
         }, 500);
@@ -214,8 +218,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return null;
   }
+//custom modal
+function showModal() {
+    modal.style.display = "block";
+    overlay.style.display = "block";
+}
+
+function hideModal() {
+    modal.style.display = "none";
+    overlay.style.display = "none";
+}
+
+
+document.querySelector(".reset").addEventListener("click", () => {
+    showModal();
+});
+
+closeModalBtn.addEventListener("click", () => {
+    hideModal();
+});
+
+function showWinMessage(player) {
+    document.getElementById("modal-text").textContent = `Player ${player}`;
+    showModal();
+}
+
+function showWinModal(player) {
+    document.getElementById("modal-text").textContent = `${player}`;
+    showModal();
+  }
+
+function showDrawModal() {
+    document.getElementById("modal-text").textContent = "It's a draw!";
+    showModal();
+}
+  
+function showResetModal() {
+    document.getElementById("modal-text").textContent = "The game has been reset!";
+    showModal();
+}
 
   // EventListeners for Buttons
-  document.querySelector(".reset").addEventListener("click", resetGame);
+  document.querySelector(".reset").addEventListener("click", () => {
+    showResetModal();
+});
   document.querySelector(".newGame").addEventListener("click", newGame);
 });
