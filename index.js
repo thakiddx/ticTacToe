@@ -262,5 +262,10 @@ function showResetModal() {
   document.querySelector(".reset").addEventListener("click", () => {
     showResetModal();
 });
+
+document.querySelector(".newGame").addEventListener("click", () => {
+document.getElementById("modal-text").textContent = "NEW GAME STARTED!";
+    showModal();
+  });   
   document.querySelector(".newGame").addEventListener("click", newGame);
 });
